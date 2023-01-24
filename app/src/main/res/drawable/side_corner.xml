@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:end="250dp"
+        android:gravity="top|start">
+        <shape android:shape="rectangle">
+            <solid android:color="#00aeff" />
+            <size
+                android:width="50dp"
+                android:height="5dp" />
+        </shape>
+    </item>
+    <item
+        android:gravity="top|end"
+        android:start="250dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#00aeff" />
+            <size
+                android:width="50dp"
+                android:height="5dp" />
+        </shape>
+    </item>
+    <item
+        android:bottom="250dp"
+        android:gravity="start|top">
+        <shape>
+            <solid android:color="#00aeff" />
+            <size
+                android:width="5dp"
+                android:height="50dp" />
+        </shape>
+    </item>
+    <item
+        android:gravity="start|bottom"
+        android:top="250dp">
+        <shape>
+            <solid android:color="#00aeff" />
+            <size
+                android:width="5dp"
+                android:height="50dp" />
+        </shape>
+    </item>
+    <item
+        android:gravity="bottom|end"
+        android:start="250dp">
+        <shape>
+
+            <solid android:color="#00aeff" />
+            <size
+                android:width="50dp"
+                android:height="5dp" />
+        </shape>
+    </item>
+    <item
+        android:end="250dp"
+        android:gravity="bottom|start">
+        <shape>
+            <corners android:bottomLeftRadius="30dp" />
+            <solid android:color="#00aeff" />
+            <size
+                android:width="50dp"
+                android:height="5dp" />
+        </shape>
+    </item>
+    <item
+        android:gravity="end|bottom"
+        android:top="250dp">
+        <shape>
+            <solid android:color="#00aeff" />
+            <size
+                android:width="5dp"
+                android:height="50dp" />
+        </shape>
+    </item>
+    <item
+        android:bottom="250dp"
+        android:gravity="end|top">
+        <shape>
+            <solid android:color="#00aeff" />
+            <size
+                android:width="5dp"
+                android:height="50dp" />
+        </shape>
+    </item>
+
+</layer-list>
