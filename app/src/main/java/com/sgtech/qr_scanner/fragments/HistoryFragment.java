@@ -60,7 +60,7 @@ public class HistoryFragment extends Fragment {
         AppDataBase appDataBase = new AppDataBase(requireContext());
         dataModels = appDataBase.fetchData();
         if (dataModels != null) {
-            adapter = new RecyclerAdapter(requireContext(), dataModels);
+            adapter = new RecyclerAdapter(requireContext(),dataModels);
             recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             emptyTxt.setVisibility(View.GONE);

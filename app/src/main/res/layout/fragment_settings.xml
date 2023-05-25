@@ -18,20 +18,66 @@
             android:gravity="center"
             android:text="@string/settings"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/setVibration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:drawableStart="@drawable/vi_layer"
+            android:drawablePadding="10dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/item_bg"
             android:padding="10dp"
             android:text="@string/vibration"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:thumb="@drawable/constom_thum"
             app:track="@drawable/custom_track"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:src="@drawable/txt_bg" />
+
+        <TextView
+            android:id="@+id/share"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/ripple_effect_r2"
+            android:drawablePadding="10dp"
+            android:background="@drawable/item_bg"
+            android:layout_margin="5dp"
+            android:gravity="start|center"
+            android:padding="10dp"
+            android:text="Share With Friends"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:drawableStartCompat="@drawable/share_layer" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:src="@drawable/txt_bg" />
+
+        <TextView
+            android:id="@+id/rateUs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/item_bg"
+            android:gravity="start|center"
+            android:drawablePadding="10dp"
+            android:padding="10dp"
+            android:text="Rate Us"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/ripple_effect_r2"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:drawableStartCompat="@drawable/rate_layer" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -42,11 +88,18 @@
             android:id="@+id/policy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:drawablePadding="10dp"
             android:padding="10dp"
             android:text="@string/privecy_policy"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/ripple_effect_r2"
+            android:background="@drawable/item_bg"
+            android:gravity="start|center"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="16sp"
+            app:drawableStartCompat="@drawable/policy_layer" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -57,45 +110,25 @@
             android:id="@+id/terms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:drawablePadding="10dp"
             android:padding="10dp"
             android:text="@string/terms_amp_conditions"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:gravity="start|center"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/ripple_effect_r2"
+            android:layout_margin="5dp"
+            android:background="@drawable/item_bg"
+            android:textSize="16sp"
+            app:drawableStartCompat="@drawable/terms_layer" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:src="@drawable/txt_bg" />
 
-        <TextView
-            android:id="@+id/Version"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            android:text="@string/version_1_0"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:src="@drawable/txt_bg" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            android:text="Developed BY : Sg Tech"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:src="@drawable/txt_bg" />
     </LinearLayout>
 
 

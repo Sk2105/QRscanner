@@ -6,9 +6,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class AppDataBase extends SQLiteOpenHelper {
     public static final String QR_CODE_DATABASE = "ScannerDatabase";
@@ -19,7 +22,7 @@ public class AppDataBase extends SQLiteOpenHelper {
     public static final String DATA_DATE = "DATA_DATE";
 
     public AppDataBase(Context context) {
-        super(context, QR_CODE_DATABASE, null, 1);
+        super(context, QR_CODE_DATABASE, null, (int) 1.1);
     }
 
     @Override
@@ -38,14 +41,13 @@ public class AppDataBase extends SQLiteOpenHelper {
     }
 
     public void insertDATA(String type, String data) {
-        Date date = new Date();
         SQLiteDatabase dataBase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(DATA_TYPE, type);
         contentValues.put(DATA_NAME, data);
-        contentValues.put(DATA_DATE, date.getDate());
+        contentValues.put(DATA_DATE,
+                new SimpleDateFormat("dd/MM/yyyy , HH:mm a", Locale.getDefault()).format(new Date()));
         dataBase.insert(DATABASE_TABLE, null, contentValues);
-
     }
 
     public ArrayList<DataModel> fetchData() {
@@ -53,7 +55,8 @@ public class AppDataBase extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getReadableDatabase();
         @SuppressLint("Recycle") Cursor cursor = database.rawQuery(" SELECT * FROM " + DATABASE_TABLE, null);
         while (cursor.moveToNext()) {
-            DataModel dataModel = new DataModel(cursor.getString(1), cursor.getString(2));
+            DataModel dataModel = new DataModel(cursor.getString(1), cursor.getString(2),
+                    cursor.getString(3));
             dataModels.add(dataModel);
         }
         return dataModels;

@@ -20,3 +20,4 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep class com.sgtech.qr_scanner.*
+-keep class com.google.** { *; }

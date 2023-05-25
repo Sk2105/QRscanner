@@ -1,36 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/layout"
     android:layout_margin="10dp"
     android:background="@drawable/item_bg"
     android:clickable="true"
     android:focusable="true"
     android:foreground="@drawable/ripple_effect_r2"
-    android:gravity="center"
     android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/typeImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:padding="10dp"
-        android:src="@drawable/link_icon" />
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:padding="8dp"
+        android:src="@drawable/language_layer" />
 
-    <TextView
-        android:id="@+id/type"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:scrollHorizontally="true"
-        android:singleLine="true"
-        android:ellipsize="marquee"
-        android:text="@string/app_name"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:drawableEndCompat="@drawable/navigate_next_icon" />
-</LinearLayout>
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/typeImg"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:padding="5dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="@string/app_name"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingStart="5dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="@string/app_name"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</RelativeLayout>

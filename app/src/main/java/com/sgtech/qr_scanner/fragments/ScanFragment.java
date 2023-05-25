@@ -3,9 +3,23 @@ package com.sgtech.qr_scanner.fragments;
 import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.VIBRATOR_SERVICE;
 import static android.widget.Toast.LENGTH_SHORT;
-
-import static com.sgtech.qr_scanner.KeyClass.*;
-import static com.google.mlkit.vision.barcode.common.Barcode.*;
+import static com.google.mlkit.vision.barcode.common.Barcode.TYPE_CONTACT_INFO;
+import static com.google.mlkit.vision.barcode.common.Barcode.TYPE_EMAIL;
+import static com.google.mlkit.vision.barcode.common.Barcode.TYPE_PHONE;
+import static com.google.mlkit.vision.barcode.common.Barcode.TYPE_PRODUCT;
+import static com.google.mlkit.vision.barcode.common.Barcode.TYPE_SMS;
+import static com.google.mlkit.vision.barcode.common.Barcode.TYPE_TEXT;
+import static com.google.mlkit.vision.barcode.common.Barcode.TYPE_URL;
+import static com.google.mlkit.vision.barcode.common.Barcode.TYPE_WIFI;
+import static com.sgtech.qr_scanner.KeyClass.EMAIL_TYPE;
+import static com.sgtech.qr_scanner.KeyClass.TEXT_TITLE;
+import static com.sgtech.qr_scanner.KeyClass.TEXT_TYPE;
+import static com.sgtech.qr_scanner.KeyClass.TYPE_VALUE;
+import static com.sgtech.qr_scanner.KeyClass.URL_TITLE;
+import static com.sgtech.qr_scanner.KeyClass.URL_URL;
+import static com.sgtech.qr_scanner.KeyClass.URL_VALUE;
+import static com.sgtech.qr_scanner.KeyClass.WIFI_SSID;
+import static com.sgtech.qr_scanner.KeyClass.WIFI_TYPE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -16,21 +30,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.camera.core.AspectRatio;
-import androidx.camera.core.CameraControl;
-import androidx.camera.core.CameraSelector;
-import androidx.camera.core.ImageAnalysis;
-import androidx.camera.core.ImageCapture;
-import androidx.camera.core.ImageProxy;
-import androidx.camera.core.Preview;
-import androidx.camera.lifecycle.ProcessCameraProvider;
-import androidx.camera.view.PreviewView;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Vibrator;
@@ -47,15 +46,31 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sgtech.qr_scanner.R;
-import com.sgtech.qr_scanner.activities.MainActivity;
-import com.sgtech.qr_scanner.activities.ResultActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.camera.core.AspectRatio;
+import androidx.camera.core.CameraControl;
+import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageProxy;
+import androidx.camera.core.Preview;
+import androidx.camera.lifecycle.ProcessCameraProvider;
+import androidx.camera.view.PreviewView;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
+import com.sgtech.qr_scanner.R;
+import com.sgtech.qr_scanner.activities.MainActivity;
+import com.sgtech.qr_scanner.activities.ResultActivity;
 
 import java.io.IOException;
 import java.util.List;
@@ -69,6 +84,8 @@ public class ScanFragment extends Fragment {
     PreviewView previewView;
     SharedPreferences preferences;
     Vibrator vibrator;
+    AdRequest adRequest;
+    AdView adView;
     boolean isVibratePhone;
     SeekBar zoomBar;
     Preview preview;
@@ -130,7 +147,6 @@ public class ScanFragment extends Fragment {
                     if (!isActive) {
                         bit = previewView.getBitmap();
                         isActive = true;
-
                         if (bit != null) {
                             InputImage inputImage = InputImage.fromBitmap(bit, 90);
                             scanBarCode(inputImage);
@@ -169,6 +185,9 @@ public class ScanFragment extends Fragment {
     }
 
     private void intiViews(View view) {
+        adView = view.findViewById(R.id.adView);
+        adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
         previewView = view.findViewById(R.id.preView);
         getImageBtn = view.findViewById(R.id.getImage);
         flashBtn = view.findViewById(R.id.flashBtn);
@@ -180,7 +199,6 @@ public class ScanFragment extends Fragment {
 
     @SuppressLint("RestrictedApi")
     private void bindPreview() throws ExecutionException, InterruptedException {
-
         preferences = requireActivity().getSharedPreferences("Editor", MODE_PRIVATE);
         isVibratePhone = preferences.getBoolean(MainActivity.isVibrate, true);
         processCameraProvider = (ProcessCameraProvider) cameraProviderFuture.get();

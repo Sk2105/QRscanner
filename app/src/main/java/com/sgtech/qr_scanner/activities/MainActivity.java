@@ -9,10 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -21,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.google.android.gms.ads.MobileAds;
 import com.sgtech.qr_scanner.R;
 import com.sgtech.qr_scanner.database.AppDataBase;
 
@@ -95,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        MobileAds.initialize(this);
         viewPager = findViewById(R.id.viewPager);
         scanImgId = findViewById(R.id.scanImgId);
         historyImgId = findViewById(R.id.historyImgId);
