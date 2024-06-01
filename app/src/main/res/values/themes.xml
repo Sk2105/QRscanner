@@ -1,8 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.Scanner" parent="Theme.AppCompat.Light.NoActionBar">
-
         <item name="android:statusBarColor">#00aaff</item>
         <!-- Customize your theme here. -->
+    </style>
+    <style name="Theme_Splash" parent="Theme.AppCompat.Light.NoActionBar"
+        >
     </style>
 </resources>

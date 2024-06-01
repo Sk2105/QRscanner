@@ -23,7 +23,6 @@ public class HistoryFragment extends Fragment {
     ArrayList<DataModel> dataModels;
     TextView emptyTxt;
     RecyclerAdapter adapter;
-    //  AppDataBase appDataBase;
 
     public HistoryFragment() {
     }

@@ -60,8 +60,6 @@ import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
@@ -84,8 +82,6 @@ public class ScanFragment extends Fragment {
     PreviewView previewView;
     SharedPreferences preferences;
     Vibrator vibrator;
-    AdRequest adRequest;
-    AdView adView;
     boolean isVibratePhone;
     SeekBar zoomBar;
     Preview preview;
@@ -185,9 +181,6 @@ public class ScanFragment extends Fragment {
     }
 
     private void intiViews(View view) {
-        adView = view.findViewById(R.id.adView);
-        adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
         previewView = view.findViewById(R.id.preView);
         getImageBtn = view.findViewById(R.id.getImage);
         flashBtn = view.findViewById(R.id.flashBtn);
@@ -238,11 +231,22 @@ public class ScanFragment extends Fragment {
 
     }
 
+    private boolean checkReadExternalStoragePermission() {
+        if (Build.VERSION.SDK_INT <= 32) {
+            return (ContextCompat.checkSelfPermission(requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+        }
+        return (ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED);
+    }
+
 
     public void setGetFileImage() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (checkReadExternalStoragePermission()) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            } else {
+                requestPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 1);
             }
         } else {
             Intent intent = new Intent(Intent.ACTION_PICK);

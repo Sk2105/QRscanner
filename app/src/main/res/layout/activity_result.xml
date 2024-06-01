@@ -23,14 +23,6 @@
             app:titleTextColor="@color/white" />
 
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-2602459603500864/6587254101" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

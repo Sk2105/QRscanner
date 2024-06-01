@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.text.ClipboardManager;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -22,15 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.OnUserEarnedRewardListener;
-import com.google.android.gms.ads.rewarded.RewardItem;
-import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd;
-import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback;
 import com.sgtech.qr_scanner.KeyClass;
 import com.sgtech.qr_scanner.R;
 import com.sgtech.qr_scanner.database.AppDataBase;
@@ -47,10 +37,8 @@ import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 
 public class ResultActivity extends AppCompatActivity {
-    RewardedInterstitialAd ad;
-    AdView adView;
-    String adId = "ca-app-pub-2602459603500864/9471463972";
-    TextView qrResult, qrType,dataTime;
+
+    TextView qrResult, qrType, dataTime;
     ImageView qrImage, qrTypeIcon;
     LinearLayout shareBtn, webBtn, copyBtn, saveBtn;
     String type = null;
@@ -70,7 +58,7 @@ public class ResultActivity extends AppCompatActivity {
             try {
                 saveQR();
             } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+                Toast.makeText(this, "Error : " + e, Toast.LENGTH_SHORT).show();
             }
         });
         shareBtn.setOnClickListener(v -> shareTxt());
@@ -89,6 +77,7 @@ public class ResultActivity extends AppCompatActivity {
         ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         clipboardManager.setText(title);
     }
+
     private void shareTxt() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/*");
@@ -97,11 +86,18 @@ public class ResultActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+
+    private boolean checkPermission() {
+        if (Build.VERSION.SDK_INT <= 32) {
+            return (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+        }
+        return true;
+    }
+
     private void saveQR() throws FileNotFoundException {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
-            }
+        if (!checkPermission()) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
         } else {
             Date date = new Date();
             Bitmap bit = bitmap;
@@ -119,12 +115,10 @@ public class ResultActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (ad != null) {
-            ad.show(this, rewardItem -> finish());
-        } else {
-            finish();
-        }
+        super.onBackPressed();
+        finish();
     }
+
     @SuppressLint("SetTextI18n")
     private void getIntentData() {
         appDataBase = new AppDataBase(this);
@@ -177,8 +171,6 @@ public class ResultActivity extends AppCompatActivity {
     private void initViews() {
         dataTime = findViewById(R.id.dataTime);
         dataTime.setText(new SimpleDateFormat("dd/MM/yyyy , HH:mm a", Locale.getDefault()).format(new Date()));
-        adView = findViewById(R.id.adView);
-        adView.loadAd(new AdRequest.Builder().build());
         qrResult = findViewById(R.id.qrResult);
         qrType = findViewById(R.id.dataType);
         qrImage = findViewById(R.id.qrImg);
@@ -190,7 +182,6 @@ public class ResultActivity extends AppCompatActivity {
         saveBtn = findViewById(R.id.saveImg);
         setSupportActionBar(toolbar);
         getIntentData();
-        new Handler().postDelayed(this::loadAd, 3000);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
@@ -202,46 +193,5 @@ public class ResultActivity extends AppCompatActivity {
         return true;
     }
 
-    public void loadAd() {
-        RewardedInterstitialAd.load(this, adId, new AdRequest.Builder().build(), new RewardedInterstitialAdLoadCallback() {
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                super.onAdFailedToLoad(loadAdError);
-                ad = null;
-            }
-
-            @Override
-            public void onAdLoaded(@NonNull RewardedInterstitialAd rewardedInterstitialAd) {
-                super.onAdLoaded(rewardedInterstitialAd);
-                ad = rewardedInterstitialAd;
-                ad.setFullScreenContentCallback(new FullScreenContentCallback() {
-                    @Override
-                    public void onAdClicked() {
-                        super.onAdClicked();
-                    }
-
-                    @Override
-                    public void onAdDismissedFullScreenContent() {
-                        super.onAdDismissedFullScreenContent();
-                    }
-
-                    @Override
-                    public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                        super.onAdFailedToShowFullScreenContent(adError);
-                    }
-
-                    @Override
-                    public void onAdImpression() {
-                        super.onAdImpression();
-                    }
-
-                    @Override
-                    public void onAdShowedFullScreenContent() {
-                        super.onAdShowedFullScreenContent();
-                    }
-                });
-            }
-        });
-    }
 
 }

@@ -18,8 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
-import com.google.android.gms.ads.MobileAds;
 import com.sgtech.qr_scanner.R;
 import com.sgtech.qr_scanner.database.AppDataBase;
 
@@ -59,7 +57,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initViews();
         addView();
+        // check Permission
         checkPermission();
+        //set ViewPage
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -83,18 +83,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(permission, 1);
-            } else {
-                ActivityCompat.requestPermissions(this, permission, 1);
-            }
-        } else {
-
+            requestPermissions(permission, 1);
         }
     }
 
     private void initViews() {
-        MobileAds.initialize(this);
         viewPager = findViewById(R.id.viewPager);
         scanImgId = findViewById(R.id.scanImgId);
         historyImgId = findViewById(R.id.historyImgId);
